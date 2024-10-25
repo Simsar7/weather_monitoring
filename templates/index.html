@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Weather Monitoring</title>
+    
+
+</head>
+<body>
+    <h1>Weather Monitoring System</h1>
+    <form action="/" method="POST">
+        <input type="text" name="city" placeholder="Enter city" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    
+    <table>
+        <tr>
+            <th>City</th>
+            <th>Temperature</th>
+            <th>Weather</th>
+        </tr>
+        {% if weather_data %}
+            <tr>
+                <td>{{ weather_data['name'] }}</td>
+                <td>{{ weather_data['main']['temp'] | round(2) if 'main' in weather_data else 'N/A' }} °C</td>
+                <td>{{ weather_data['weather'][0]['description'] if 'weather' in weather_data else 'N/A' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No data available</td>
+            </tr>
+        {% endif %}
+    </table>
+
+    {% if alerts %}
+        <div class="alert">
+            <h4>Alerts:</h4>
+            <ul>
+                {% for alert in alerts %}
+                    <li>{{ alert }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>
